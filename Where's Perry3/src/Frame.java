@@ -52,18 +52,15 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	Buttons menu = new Buttons("menu.png", 460, 420);
 	
 	//setting up arrays that contain lava objects for each level
+	int x1= 0;
+	int y1 = 0;
+	//level1 has 6 lavas
 	ArrayList<Lava> level1 = new ArrayList<Lava>();
-	/*for (int i = 0; i < 6; i ++) {
-		for-loop to populate 6 level 1 lavas(3 phineas and 3 ferb)
-	}*/
+	//level2 has 4 lavas
 	ArrayList<Lava> level2 = new ArrayList<Lava>();
-	/*for (int i = 0; i < 4; i ++) {
-		for-loop to populate 6 level 2 lavas(2 phineas and 2 ferb)
-	}*/
+	//level3 has 9 lavas
 	ArrayList<Lava> level3 = new ArrayList<Lava>();
-	/*for (int i = 0; i < _; i ++) {
-		for-loop to populate _ level 3 lavas(_ phineas and _ ferb)
-	}*/
+	
 	//setting up arrays that contain gem objects for each level
 	ArrayList<Gems> level1Gems = new ArrayList<Gems>();
 	//for loop to set up gems
@@ -76,6 +73,24 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	public void paint(Graphics g) {
 		super.paintComponent(g);
 		
+		level1.add(new Lava("phineasLavat.gif", x1+90 , y1+50 ));
+		level1.add(new Lava("phineasLavat.gif", x1+350  , y1+280 ));
+		level1.add(new Lava("ferbLavat.gif", x1+500 , y1+50 ));
+		level1.add(new Lava("ferbLavat.gif", x1+200 , y1+280 ));
+		level1.add(new Lava("phineasLavat.gif", x1+80 , y1+640 ));
+		level1.add(new Lava("phineasLavat.gif", x1+125 , y1+640 ));
+		level1.add(new Lava("phineasLavat.gif", x1+155 , y1+640 ));
+		level1.add(new Lava("ferbLavat.gif", x1+340 , y1+640 ));
+		level1.add(new Lava("ferbLavat.gif", x1+375 , y1+640 ));
+		level1.add(new Lava("ferbLavat.gif", x1+415 , y1+640 ));
+
+		//level2.add(new Lava("phineasLavat.gif", x1+ , y1+ ));
+		//level2.add(new Lava("ferbLavat.gif", x1+ , y1+ ));
+		
+		//level3.add(new Lava("phineasLavat.gif", x1+ , y1+ ));
+		//level3.add(new Lava("ferbLavat.gif", x1+ , y1+ ));
+
+		
 		//setting up the homepage of the game
 		homepage.paint(g);
 		one.paint(g);
@@ -86,6 +101,17 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			back.paint(g);
 			first.paint(g);
 			pause.paint(g);
+			level1.get(0).paint(g);
+			level1.get(1).paint(g);
+			level1.get(2).paint(g);
+			level1.get(3).paint(g);
+			level1.get(4).paint(g);
+			level1.get(5).paint(g);
+			level1.get(6).paint(g);
+			level1.get(7).paint(g);
+			level1.get(8).paint(g);
+			level1.get(9).paint(g);
+			//set players at bottom left screen
 			p.paint(g);
 			//if button has been pressed, draw the corresponding level and its components
 			
@@ -98,6 +124,11 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			} else {
 				p.setFlor(695);
 			}
+			/*for (int i = 0; i < 10; i++) {
+				if(level1.get(i).crossed(p.getX(), p.getY())) {
+					canRestart = true;
+				}
+			}*/
 		}
 		if (secondStart) {//checking if button to play level 2 has been pressed/'hit'
 			back.paint(g);
@@ -237,9 +268,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		Timer t = new Timer(16, this);
 		t.start();
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		f.setVisible(true);
-		
-		
+		f.setVisible(true);		
 	}
 	
 	

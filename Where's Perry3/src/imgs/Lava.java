@@ -1,4 +1,5 @@
 package imgs;
+
 import java.awt.image.BufferedImage;
 
 import java.awt.Graphics;
@@ -43,44 +44,23 @@ public class Lava {
 
 	}
 	
-	public boolean getclr(int x, int y) {
-		boolean check = false;
-		
-		System.out.println(color.getRGB(x,y));
-		//int clr = color.getRGB(x, y);
-        /*int red =   (clr & 0x00ff0000) >> 16;
-        int green = (clr & 0x0000ff00) >> 8;
-        int blue =   clr & 0x000000ff;
-		if(red == 51 && green == 30 && blue == 22) {
-			check = true;
-		}*/
 
-		/*
-		System.out.println("Red Color value = " + red);
-        System.out.println("Green Color value = " + green);
-        System.out.println("Blue Color value = " + blue);
-        */
-        
-		return check;
-		
-	}
-		
 	//update the picture variable location
 	private void update() {
 		tx.setToTranslation(x, y);
-		tx.scale(1,1);
+		tx.scale(3,2);
 	}
 	
 	private void init(double a, double b) {
 		tx.setToTranslation(a, b);
-		tx.scale(1,1);
+		tx.scale(3,2);
 	}
 
 	private Image getImage(String path) {
 		Image tempImage = null;
 		try {
-			URL imageURL = Level.class.getResource(path);
-			color = ImageIO.read(imageURL);
+			URL imageURL = Lava.class.getResource(path);
+			//color = ImageIO.read(imageURL);
 			tempImage = Toolkit.getDefaultToolkit().getImage(imageURL);
 		} catch (Exception e) {
 			e.printStackTrace();

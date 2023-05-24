@@ -1,3 +1,4 @@
+
 import java.awt.Color;
 import java.io.*;
 import java.awt.*;
@@ -44,7 +45,6 @@ public class Player{
 		Graphics2D g2 = (Graphics2D) g;
 		g2.drawImage(img, tx, null);
 		update();
-		
 		//g.drawRect((int) x+30, (int) 60, 10, 10);
 	}
 	
@@ -128,7 +128,8 @@ public class Player{
 			x = Rwall;
 		}
 		
-		
+		//System.out.println("X location " + getX() + ", Y location " + getY());
+
 	}
 	
 	
