@@ -9,8 +9,10 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -96,21 +98,21 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		one.paint(g);
 		two.paint(g);
 		three.paint(g);
-			
+		
 		if (firstStart) {//checking if button to play level 1 has been pressed/'hit'
 			back.paint(g);
 			first.paint(g);
 			pause.paint(g);
-			level1.get(0).paint(g);
-			level1.get(1).paint(g);
-			level1.get(2).paint(g);
-			level1.get(3).paint(g);
-			level1.get(4).paint(g);
-			level1.get(5).paint(g);
-			level1.get(6).paint(g);
-			level1.get(7).paint(g);
-			level1.get(8).paint(g);
-			level1.get(9).paint(g);
+			level1.get(0).paint(g);//orange
+			level1.get(1).paint(g);//orange
+			level1.get(2).paint(g);//green
+			level1.get(3).paint(g);//green
+			level1.get(4).paint(g);//orange
+			level1.get(5).paint(g);//orange
+			level1.get(6).paint(g);//orange
+			level1.get(7).paint(g);//green
+			level1.get(8).paint(g);//green
+			level1.get(9).paint(g);//green
 			//set players at bottom left screen
 			p.paint(g);
 			//if button has been pressed, draw the corresponding level and its components
@@ -124,11 +126,14 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			} else {
 				p.setFlor(695);
 			}
-			/*for (int i = 0; i < 10; i++) {
-				if(level1.get(i).crossed(p.getX(), p.getY())) {
-					canRestart = true;
-				}
-			}*/
+			
+			//checking if phineas stepped into green
+			if(p.crossedLava(level1.get(2)) || p.crossedLava(level1.get(3)) || p.crossedLava(level1.get(7)) || p.crossedLava(level1.get(8)) || p.crossedLava(level1.get(9))){
+				p.dissapear(null);
+				p.stop();
+				canRestart = true;
+			}
+			//checking if ferb stepped into orange
 		}
 		if (secondStart) {//checking if button to play level 2 has been pressed/'hit'
 			back.paint(g);
@@ -157,7 +162,6 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			if(third.getclr(p.getX()+28,p.getY()+76) == true) {
 				//phineas/ferb objects search for the specific color that they're allowed to step on 
 				
-				//System.out.println("yas");
 				p.setFlor(p.getY());
 				//p.setFlor(p.getY());
 			} else {
@@ -180,6 +184,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			//players are returned to homepage, i.e. homepage is redrawn
 		}
 		if(tryagain) {
+			canRestart = false;
 			if (firstStart) {//checking if button to play level 1 has been pressed/'hit'
 				back.paint(g);
 				first.paint(g);
@@ -232,22 +237,6 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			tryagain = false;
 		}
 		
-		//System.out.println(p.getY());
-		//System.out.println(third.getclr(p.getX() + 30,p.getY()+90));
-		//System.out.println(homepage.getclr(p.getX()+10,p.getY()/100));
-		
-		/*
-		if(third.getclr(p.getX()+20,p.getY()+70) == true) {
-			p.setLwall(p.getX());
-	
-		} 
-		
-		/*
-		
-		if(third.getclr(p.getX()+30,p.getY()+70) == true) {
-			p.setRwall(p.getX());
-			
-		} \\*/
 		
 	}
 	
@@ -268,7 +257,8 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		Timer t = new Timer(16, this);
 		t.start();
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		f.setVisible(true);		
+		f.setVisible(true);	
+		
 	}
 	
 	
@@ -343,6 +333,9 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			System.out.println("jump");
 			p.jump();
 		}
+		if(canRestart) {
+			p.stop();
+		}
 	}
 
 	@Override
@@ -350,15 +343,6 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		// TODO Auto-generated method stub
 		
 		p.stop();
-		/*
-		if (arg0.getKeyCode() == 39) { 
-			p.stop();
-		}
-		if (arg0.getKeyCode() == 37) { 
-			p.stop();
-		}
-		
-		*/
 		
 		
 	}

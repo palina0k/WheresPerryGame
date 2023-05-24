@@ -41,10 +41,10 @@ public class Lava {
 		Graphics2D g2 = (Graphics2D) g;
 		update();
 		g2.drawImage(img, tx, null);
+		g.drawRect(x+60, y+105, 80, 20);
 
 	}
 	
-
 	//update the picture variable location
 	private void update() {
 		tx.setToTranslation(x, y);
@@ -56,11 +56,17 @@ public class Lava {
 		tx.scale(3,2);
 	}
 
+	public int getX() {
+		return x;
+	}
+	public int getY() {
+		return y;
+	}
 	private Image getImage(String path) {
 		Image tempImage = null;
 		try {
 			URL imageURL = Lava.class.getResource(path);
-			//color = ImageIO.read(imageURL);
+			color = ImageIO.read(imageURL);
 			tempImage = Toolkit.getDefaultToolkit().getImage(imageURL);
 		} catch (Exception e) {
 			e.printStackTrace();

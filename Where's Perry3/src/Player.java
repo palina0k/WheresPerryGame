@@ -1,12 +1,8 @@
 
-import java.awt.Color;
+
 import java.io.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -15,6 +11,8 @@ import java.io.IOException;
 import java.net.URL;
 
 import javax.imageio.ImageIO;
+
+import imgs.Lava;
 
 public class Player{
 	private Image img; 	
@@ -45,7 +43,7 @@ public class Player{
 		Graphics2D g2 = (Graphics2D) g;
 		g2.drawImage(img, tx, null);
 		update();
-		//g.drawRect((int) x+30, (int) 60, 10, 10);
+		g.drawRect((int) x+15, (int) y, 20, 80);
 	}
 	
 	private void init(double a, double b) {
@@ -83,7 +81,6 @@ public class Player{
 		
 		
 	}
-	
 	
 	public void jump() {
 		if(y == floor) {
@@ -131,12 +128,30 @@ public class Player{
 		//System.out.println("X location " + getX() + ", Y location " + getY());
 
 	}
-	
+	public void dissapear(Image img) {
+		this.img = img;
+	}
 	
 	public double getHeight() {
 		return y;
 	}		
 	
+	public boolean crossedLava(Lava l) {
+		boolean crossed = false;
+		
+		//represent the mouse as a rectangle object
+		Rectangle lava = new Rectangle(l.getX()+60, l.getY()+105, 80, 20);
+					
+		//level press box
+		Rectangle player = new Rectangle(x+15, y, 20, 80);
+		
+		if(player.intersects(lava)) {
+			crossed = true;
+		}
+		
+		
+		return crossed;
+	}
 	
 	private Image getImage(String path) {
 		Image tempImage = null;
