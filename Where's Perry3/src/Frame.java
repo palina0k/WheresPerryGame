@@ -20,11 +20,13 @@ import imgs.Level;
 import imgs.Buttons;
 import imgs.Gems;
 import imgs.Lava;
+import imgs.Levers;
 import imgs.RestartMenu;
+
 
 public class Frame extends JPanel implements ActionListener, MouseListener, KeyListener {
 	
-	Player p = new Player("Phineas.png");
+	Player p = new Player("Phin.png");
 	Player p2 = new Player("Ferb.png");
 	Background homepage = new Background();
 	boolean home = false;
@@ -35,13 +37,15 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	//pause button that appears in every level
 	Buttons pause = new Buttons("pause.png", 730, 0);
 	
+	Levers lev1 = new Levers("LeverUnchanged.png", 670, 75);
+	
 	//setting up the visual backgrounds and maze contents of levels
 	Background back = new Background("background.png");
-	Level first = new Level("level1.png");
+	Level first = new Level("level2.png");
 	boolean firstStart = false;
 	Level second = new Level("level2.png");
 	boolean secondStart = false;
-	Level third = new Level();
+	Level third = new Level("level3v.png");
 	boolean thirdStart = false;
 	
 	//attributes of the menu pop-up
@@ -72,6 +76,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	ArrayList<Gems> level3Gems = new ArrayList<Gems>();
 	//for loop to set up games
 	
+	private long starttime; 
 	
 	public void paint(Graphics g) {
 		super.paintComponent(g);
@@ -87,51 +92,119 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			first.paint(g);
 			pause.paint(g);
 			p.paint(g);
+			p2.paint(g);
 			//if button has been pressed, draw the corresponding level and its components
 			
-			if(first.getclr(p.getX()+28,p.getY()+76) == true) {
-				//phineas/ferb objects search for the specific color that they're allowed to step on 
-				
-				//System.out.println("yas");
+			if(first.getclr(p.getX() + 30,p.getY()+70) == true && first.getclr(p.getX() + 30,p.getY()+60) == false) {
 				p.setFlor(p.getY());
-				//p.setFlor(p.getY());
 			} else {
-				p.setFlor(695);
+				p.setFlor(700);
 			}
+			if(first.getclr(p.getX() + 5,p.getY()+60) == true) {
+				p.setLwall(p.getX());
+		
+			} else {
+				p.setLwall(10);
+			}
+			g.drawRect(p.getX(), p.getY()+60, 10, 10);
+			
+			if(first.getclr(p.getX()+ 45,p.getY()+60) == true) {
+				p.setRwall(p.getX());
+			} else { 
+				p.setRwall(700);
+			}
+			g.drawRect(p.getX()+ 10, p.getY()+60, 10, 10);
+			
 		}
 		if (secondStart) {//checking if button to play level 2 has been pressed/'hit'
 			back.paint(g);
 			second.paint(g);
 			pause.paint(g);
 			p.paint(g);
+			p2.paint(g);
 			//if button has been pressed, draw the corresponding level and its components
 
-			if(second.getclr(p.getX()+28,p.getY()+76) == true) {
-				//phineas/ferb objects search for the specific color that they're allowed to step on 
-				
-				//System.out.println("yas");
+			if(second.getclr(p.getX() + 30,p.getY()+70) == true && second.getclr(p.getX() + 30,p.getY()+60) == false) {
 				p.setFlor(p.getY());
-				//p.setFlor(p.getY());
 			} else {
-				p.setFlor(695);
+				p.setFlor(700);	
 			}
+			if(second.getclr(p.getX() + 10,p.getY()+60) == true) {
+				p.setLwall(p.getX());
+		
+			} else {
+				p.setLwall(10);
+			}
+			if(second.getclr(p.getX()+ 50,p.getY()+60) == true) {
+				p.setRwall(p.getX());
+				
+			} else { 
+				p.setRwall(700);
+			}	
+			
 		}
 		if (thirdStart) {//checking if button to play level 3 has been pressed/'hit'
 			back.paint(g);
 			third.paint(g);
 			pause.paint(g);
 			p.paint(g);
+			p2.paint(g);
+			lev1.paint(g);
 			//if button has been pressed, draw the corresponding level and its components
 			
-			if(third.getclr(p.getX()+28,p.getY()+76) == true) {
-				//phineas/ferb objects search for the specific color that they're allowed to step on 
-				
-				//System.out.println("yas");
+			if(third.getclr(p.getX() + 30,p.getY()+70) == true && third.returnClr(p.getX() + 30,p.getY()+60) == 0) {
 				p.setFlor(p.getY());
-				//p.setFlor(p.getY());
 			} else {
-				p.setFlor(695);
+				p.setFlor(700);
 			}
+			
+			if(third.getclr(p.getX()+20,p.getY()+60) == true) {
+				p.setLwall(p.getX());
+		
+			} else {
+				p.setLwall(10);
+			}
+			g.drawRect(p.getX() + 20, p.getY()+60, 10, 10);
+			
+			if(third.getclr(p.getX()+ 35,p.getY()+60) == true) {
+				p.setRwall(p.getX());
+				
+			} else { 
+				p.setRwall(700);
+			}
+			g.drawRect(p.getX()+ 35, p.getY()+60, 10, 10);
+			
+			
+			/*
+			if(third.returnClr(p.getX() + 50,p.getY()) != 0) {
+				p.setCeil(p.getX());
+		
+			} else {
+				p.setCeil(10);
+			}
+			
+			/*
+			
+			
+			if(third.getclr(p2.getX() + 30,p2.getY()+70) == true && third.getclr(p2.getX() + 30,p2.getY()+60) == false) {
+				p2.setFlor(p2.getY());
+			} else {
+				p2.setFlor(700);
+			}
+			if(third.getclr(p2.getX() + 10,p2.getY()+60) == true) {
+				p2.setLwall(p2.getX());
+		
+			} else {
+				p2.setLwall(10);
+			}
+			
+			if(third.getclr(p2.getX()+ 50,p2.getY()+60) == true) {
+				p2.setRwall(p2.getX());
+			} else { 
+				p2.setRwall(700);
+			}
+			
+			*/
 		}
 		if (canRestart) {//checking if pause button was clicked 
 			restartMenu.paint(g);
@@ -181,6 +254,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 				} else {
 					p.setFlor(695);
 				}
+				
 			}else if (thirdStart) {//checking if button to play level 3 has been pressed/'hit'
 				back.paint(g);
 				third.paint(g);
@@ -218,6 +292,9 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			
 		} \\*/
 		
+		
+		
+		
 	}
 	
 	
@@ -238,7 +315,6 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		t.start();
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setVisible(true);
-		
 		
 	}
 	
@@ -306,14 +382,30 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		System.out.println(arg0.getKeyCode());
 		if (arg0.getKeyCode() == 39) { 
 			p.moveLeft();
+			p.changePicture("Phin.png");
 		}
 		if (arg0.getKeyCode() == 37) { 
 			p.moveRight();
+			p.changePicture("Phineasflip.png");;
 		}
 		if (arg0.getKeyCode() == 38) { 
-			System.out.println("jump");
 			p.jump();
 		}
+		
+		
+		
+		if (arg0.getKeyCode() == 68) { 
+			p2.moveLeft();
+			p2.changePicture("Ferb.png");
+		}
+		if (arg0.getKeyCode() == 65) { 
+			p2.moveRight();
+			p2.changePicture("Ferbflip.png");
+		}
+		if (arg0.getKeyCode() == 87) { 
+			p2.jump();
+		}
+	
 	}
 
 	@Override
@@ -321,6 +413,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		// TODO Auto-generated method stub
 		
 		p.stop();
+		p2.stop();
 		/*
 		if (arg0.getKeyCode() == 39) { 
 			p.stop();
