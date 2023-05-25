@@ -77,7 +77,7 @@ public class Level {
 			check = true;
 			//return true;
 		}
-		return c.getRed() + c.getGreen() + c.getBlue();	
+		return (c.getRed() + c.getGreen() + c.getBlue());	
 
 		/*
 		System.out.println("Red Color value = " + red);
@@ -85,7 +85,6 @@ public class Level {
         System.out.println("Blue Color value = " + blue);
         */
         
-		return check;
 		
 
 	}

@@ -77,7 +77,6 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	
 	private long starttime; 
 
-	ArrayList<Gems> level3Gems = new ArrayList<Gems>();	
 
 	
 	public void paint(Graphics g) {
@@ -208,7 +207,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 				p.setRwall(700);
 			}	
 			
-		}
+        }
 		if (thirdStart) {//checking if button to play level 3 has been pressed/'hit'
 			back.paint(g);
 			third.paint(g);
@@ -221,6 +220,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 
 			if(third.getclr(p.getX() + 30,p.getY()+70) == true && third.returnClr(p.getX() + 30,p.getY()+60) == 0) {
 
+			}
 			if(third.getclr(p.getX()+28,p.getY()+76) == true) {
 				//phineas/ferb objects search for the specific color that they're allowed to step on 
 				
@@ -347,16 +347,11 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 				} else {
 					p.setFlor(695);
 				}
-			}
 			tryagain = false;
-		}
-		
-		
-		
-		
-		
+		}	
+				
 	}
-	
+}	
 	
 	public static void main(String[] arg) {
 		Frame f = new Frame();
