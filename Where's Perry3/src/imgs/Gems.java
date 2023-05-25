@@ -41,46 +41,41 @@ public class Gems {
 		update();
 		g2.drawImage(img, tx, null);
 
+		g.drawRect(x, y, 35, 35);
 	}
 	
-	public boolean getclr(int x, int y) {
-		boolean check = false;
-		
-		System.out.println(color.getRGB(x,y));
-		//int clr = color.getRGB(x, y);
-        /*int red =   (clr & 0x00ff0000) >> 16;
-        int green = (clr & 0x0000ff00) >> 8;
-        int blue =   clr & 0x000000ff;
-		if(red == 51 && green == 30 && blue == 22) {
-			check = true;
-		}*/
-
-		/*
-		System.out.println("Red Color value = " + red);
-        System.out.println("Green Color value = " + green);
-        System.out.println("Blue Color value = " + blue);
-        */
-        
-		return check;
-		
+	public void restart(String filename) {
+		img = getImage(filename);
 	}
 		
+	//when gem gets collected
+	public void collected(Image img) {
+		this.img = img;
+	}
+	
+	public int getX() {
+		return x;
+	}
+	
+	public int getY() {
+		return y;
+	}
+	
 	//update the picture variable location
 	private void update() {
 		tx.setToTranslation(x, y);
-		tx.scale(1,1);
+		tx.scale(0.35,0.35);
 	}
 	
 	private void init(double a, double b) {
 		tx.setToTranslation(a, b);
-		tx.scale(1,1);
+		tx.scale(0.35,0.35);
 	}
 
 	private Image getImage(String path) {
 		Image tempImage = null;
 		try {
 			URL imageURL = Level.class.getResource(path);
-			color = ImageIO.read(imageURL);
 			tempImage = Toolkit.getDefaultToolkit().getImage(imageURL);
 		} catch (Exception e) {
 			e.printStackTrace();

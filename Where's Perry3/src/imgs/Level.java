@@ -62,6 +62,7 @@ public class Level {
 			check = true;
 			//return true;
 		}
+
 		return check;	
 	}
 	
@@ -77,6 +78,16 @@ public class Level {
 			//return true;
 		}
 		return c.getRed() + c.getGreen() + c.getBlue();	
+
+		/*
+		System.out.println("Red Color value = " + red);
+        System.out.println("Green Color value = " + green);
+        System.out.println("Blue Color value = " + blue);
+        */
+        
+		return check;
+		
+
 	}
 		
 	//update the picture variable location
