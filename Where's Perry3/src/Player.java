@@ -23,6 +23,7 @@ public class Player{
 	private int floor= 700;
 	private int Lwall= 0;
 	private int Rwall= 700;
+	private int ceil= 10;
 	private double gravity = 0.1;
 	
 
@@ -34,9 +35,9 @@ public class Player{
 		
 	}
 	
-	public void changePicture(String newFileName) {
-		img = getImage(newFileName);
-		init(0, 0);
+	public void changePicture(String fileName) {
+		//img = getImage("/imgs/Phinflip.png");
+		img = getImage("/imgs/"+fileName);
 	}
 	
 	public void paint(Graphics g) {
@@ -44,6 +45,9 @@ public class Player{
 		Graphics2D g2 = (Graphics2D) g;
 		g2.drawImage(img, tx, null);
 		update();
+		
+		g.drawRect((int) x, (int)y, 10, 10);
+
 		g.drawRect((int) x+15, (int) y, 20, 80);
 	}
 	
@@ -72,21 +76,20 @@ public class Player{
 	}
 	
 	public void moveRight(){
-		vx = -1.5;
+		vx = -3;
 	
-		img = getImage("/imgs/Phinflip.png");
+
 	}
 	
 	public void moveLeft(){
 		vx = 3;
-		img = getImage("/imgs/Phineas.png");
 		
 		
 	}
 	
 	public void jump() {
 		if(y == floor) {
-			vy = -5;
+			vy = -6;
 		}
 		
 
@@ -103,6 +106,10 @@ public class Player{
 	public void setRwall(int val) {
 		Rwall = val;
 	}	
+	
+	public void setCeil(int val) {
+		ceil = val;
+	}
 	
 	public void update() {
 		tx = AffineTransform.getTranslateInstance(x, y);
@@ -127,6 +134,24 @@ public class Player{
 			x = Rwall;
 		}
 		
+		touchLev();
+	
+	}
+	
+	public boolean touchLev() {
+		//represent mouse as rectangle
+		Rectangle p = new Rectangle(x,y,70,70);
+		
+		// duck hit
+		Rectangle l = new Rectangle (670,75,90,90);
+		
+		if(p.intersects(l)) {
+			System.out.println("hit");
+			return true;
+			
+		}
+		
+		return false;
 		//System.out.println("X location " + getX() + ", Y location " + getY());
 
 	}
