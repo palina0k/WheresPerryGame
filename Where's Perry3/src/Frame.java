@@ -65,16 +65,12 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	
 	//setting up arrays that contain gem objects for each level
 	ArrayList<Gems> level1Gems = new ArrayList<Gems>();
-	//for loop to set up gems
 	ArrayList<Gems> level2Gems = new ArrayList<Gems>();
-	//for loop to set up gems
-	ArrayList<Gems> level3Gems = new ArrayList<Gems>();
-	//for loop to set up games
-	
+	ArrayList<Gems> level3Gems = new ArrayList<Gems>();	
 	
 	public void paint(Graphics g) {
 		super.paintComponent(g);
-		
+		//level1 LAVAS
 		level1.add(new Lava("phineasLavat.gif", x1+90 , y1+50 ));
 		level1.add(new Lava("phineasLavat.gif", x1+350  , y1+280 ));
 		level1.add(new Lava("ferbLavat.gif", x1+500 , y1+50 ));
@@ -86,12 +82,26 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		level1.add(new Lava("ferbLavat.gif", x1+375 , y1+640 ));
 		level1.add(new Lava("ferbLavat.gif", x1+415 , y1+640 ));
 
+		//level1 GEMS
+		level1Gems.add(new Gems("gearGEM2t.gif", x1+170, y1+120));
+		level1Gems.add(new Gems("hammerGEM1t.gif", x1+580, y1+120));
+		//level1Gems.add(new Gems("gearGEM2t.gif", x1+170, y1+120));
+		//level1Gems.add(new Gems("hammerGEM1t.gif", x1+170, y1+120));
+		//level1Gems.add(new Gems("gearGEM2t.gif", x1+170, y1+120));
+		//level1Gems.add(new Gems("hammerGEM1t.gif", x1+170, y1+120));
+
+		//level2 LAVAS
 		//level2.add(new Lava("phineasLavat.gif", x1+ , y1+ ));
 		//level2.add(new Lava("ferbLavat.gif", x1+ , y1+ ));
 		
+		//level2 GEMS
+		
+		
+		//level3 LAVAS
 		//level3.add(new Lava("phineasLavat.gif", x1+ , y1+ ));
 		//level3.add(new Lava("ferbLavat.gif", x1+ , y1+ ));
 
+		//level3 GEMS
 		
 		//setting up the homepage of the game
 		homepage.paint(g);
@@ -103,6 +113,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			back.paint(g);
 			first.paint(g);
 			pause.paint(g);
+			//lavas
 			level1.get(0).paint(g);//orange
 			level1.get(1).paint(g);//orange
 			level1.get(2).paint(g);//green
@@ -113,6 +124,10 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			level1.get(7).paint(g);//green
 			level1.get(8).paint(g);//green
 			level1.get(9).paint(g);//green
+			//gems
+			level1Gems.get(0).paint(g);//gear
+			level1Gems.get(1).paint(g);//hammer
+
 			//set players at bottom left screen
 			p.paint(g);
 			//if button has been pressed, draw the corresponding level and its components
@@ -134,6 +149,12 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 				canRestart = true;
 			}
 			//checking if ferb stepped into orange
+			
+			
+			//did corresponding player collect their gem
+			if(p.grabbedGem(level1Gems.get(0))) {
+				level1Gems.get(0).collected(null);
+			}
 		}
 		if (secondStart) {//checking if button to play level 2 has been pressed/'hit'
 			back.paint(g);
@@ -180,16 +201,19 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			two.paint(g);
 			three.paint(g);
 			home = false;
-			p.restart();
+			p.restart("Phineas.png");
 			//players are returned to homepage, i.e. homepage is redrawn
 		}
 		if(tryagain) {
 			canRestart = false;
 			if (firstStart) {//checking if button to play level 1 has been pressed/'hit'
+				
 				back.paint(g);
 				first.paint(g);
 				pause.paint(g);
-				p.restart(); 
+				p.restart("Phineas.png");
+				level1Gems.get(0).restart("gearGEM2t.gif");
+				level1Gems.get(0).paint(g);
 				//if button has been pressed, draw the corresponding level and its components
 				
 				if(first.getclr(p.getX()+28,p.getY()+76) == true) {
@@ -205,7 +229,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 				back.paint(g);
 				second.paint(g);
 				pause.paint(g);
-				p.restart();
+				p.restart("Phineas.png");
 				//if button has been pressed, draw the corresponding level and its components
 				
 				if(second.getclr(p.getX()+28,p.getY()+76) == true) {
@@ -221,7 +245,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 				back.paint(g);
 				third.paint(g);
 				pause.paint(g);
-				p.restart();
+				p.restart("Phineas.png");
 				//if button has been pressed, draw the corresponding level and its components
 				
 				if(third.getclr(p.getX()+28,p.getY()+76) == true) {

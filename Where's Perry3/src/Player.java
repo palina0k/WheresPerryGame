@@ -12,6 +12,7 @@ import java.net.URL;
 
 import javax.imageio.ImageIO;
 
+import imgs.Gems;
 import imgs.Lava;
 
 public class Player{
@@ -51,7 +52,8 @@ public class Player{
 		tx.scale(.05, .05);
 	}
 	
-	public void restart() {
+	public void restart(String filename) {
+		dissapear(getImage("/imgs/"+filename));
 		x = 0;
 		y = 0;
 	}
@@ -128,14 +130,16 @@ public class Player{
 		//System.out.println("X location " + getX() + ", Y location " + getY());
 
 	}
-	public void dissapear(Image img) {
-		this.img = img;
+	//when steps in wrong lava
+	public void dissapear(Image image) {
+		img = image;
 	}
 	
 	public double getHeight() {
 		return y;
 	}		
 	
+	//helper method to detect if player walked through wrong lava
 	public boolean crossedLava(Lava l) {
 		boolean crossed = false;
 		
@@ -153,11 +157,27 @@ public class Player{
 		return crossed;
 	}
 	
+	//helper method to detect if player picked up correct gem
+	public boolean grabbedGem(Gems gem) {
+		boolean didGrab = false;
+		//represent the mouse as a rectangle object
+		Rectangle gems = new Rectangle(gem.getX(), gem.getY(), 35, 35);
+							
+		//level press box
+		Rectangle player = new Rectangle(x+15, y, 20, 80);
+				
+		if(player.intersects(gems)) {
+			didGrab = true;
+		}
+		
+		return didGrab;
+	}
+	
 	private Image getImage(String path) {
 		Image tempImage = null;
 		try {
 			URL imageURL = Player.class.getResource(path);
-			tempImage = Toolkit.getDefaultToolkit().getImage(imageURL);//"phineas.png");
+			tempImage = Toolkit.getDefaultToolkit().getImage(imageURL);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
