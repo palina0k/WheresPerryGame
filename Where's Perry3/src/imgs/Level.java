@@ -62,14 +62,11 @@ public class Level {
 		if(red == 51 && green == 30 && blue == 22) {
 			check = true;
 		}
-		if(red == 255 && green == 255 && blue == 255) {
-			check = true;
-		}
-		
+		/*
 		System.out.println("Red Color value = " + red);
         System.out.println("Green Color value = " + green);
         System.out.println("Blue Color value = " + blue);
-        
+        */
         
 		return check;
 		

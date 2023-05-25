@@ -1,11 +1,8 @@
-import java.awt.Color;
+
+
 import java.io.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -14,6 +11,9 @@ import java.io.IOException;
 import java.net.URL;
 
 import javax.imageio.ImageIO;
+
+import imgs.Gems;
+import imgs.Lava;
 
 public class Player{
 	private Image img; 	
@@ -44,8 +44,7 @@ public class Player{
 		Graphics2D g2 = (Graphics2D) g;
 		g2.drawImage(img, tx, null);
 		update();
-		
-		//g.drawRect((int) x+30, (int) 60, 10, 10);
+		g.drawRect((int) x+15, (int) y, 20, 80);
 	}
 	
 	private void init(double a, double b) {
@@ -53,7 +52,8 @@ public class Player{
 		tx.scale(.05, .05);
 	}
 	
-	public void restart() {
+	public void restart(String filename) {
+		dissapear(getImage("/imgs/"+filename));
 		x = 0;
 		y = 0;
 	}
@@ -83,7 +83,6 @@ public class Player{
 		
 		
 	}
-	
 	
 	public void jump() {
 		if(y == floor) {
@@ -128,20 +127,57 @@ public class Player{
 			x = Rwall;
 		}
 		
-		
+		//System.out.println("X location " + getX() + ", Y location " + getY());
+
 	}
-	
+	//when steps in wrong lava
+	public void dissapear(Image image) {
+		img = image;
+	}
 	
 	public double getHeight() {
 		return y;
 	}		
 	
+	//helper method to detect if player walked through wrong lava
+	public boolean crossedLava(Lava l) {
+		boolean crossed = false;
+		
+		//represent the mouse as a rectangle object
+		Rectangle lava = new Rectangle(l.getX()+60, l.getY()+105, 80, 20);
+					
+		//level press box
+		Rectangle player = new Rectangle(x+15, y, 20, 80);
+		
+		if(player.intersects(lava)) {
+			crossed = true;
+		}
+		
+		
+		return crossed;
+	}
+	
+	//helper method to detect if player picked up correct gem
+	public boolean grabbedGem(Gems gem) {
+		boolean didGrab = false;
+		//represent the mouse as a rectangle object
+		Rectangle gems = new Rectangle(gem.getX(), gem.getY(), 35, 35);
+							
+		//level press box
+		Rectangle player = new Rectangle(x+15, y, 20, 80);
+				
+		if(player.intersects(gems)) {
+			didGrab = true;
+		}
+		
+		return didGrab;
+	}
 	
 	private Image getImage(String path) {
 		Image tempImage = null;
 		try {
 			URL imageURL = Player.class.getResource(path);
-			tempImage = Toolkit.getDefaultToolkit().getImage(imageURL);//"phineas.png");
+			tempImage = Toolkit.getDefaultToolkit().getImage(imageURL);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

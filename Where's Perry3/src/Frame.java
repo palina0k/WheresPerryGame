@@ -9,8 +9,10 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -52,40 +54,81 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	Buttons menu = new Buttons("menu.png", 460, 420);
 	
 	//setting up arrays that contain lava objects for each level
+	int x1= 0;
+	int y1 = 0;
+	//level1 has 6 lavas
 	ArrayList<Lava> level1 = new ArrayList<Lava>();
-	/*for (int i = 0; i < 6; i ++) {
-		for-loop to populate 6 level 1 lavas(3 phineas and 3 ferb)
-	}*/
+	//level2 has 4 lavas
 	ArrayList<Lava> level2 = new ArrayList<Lava>();
-	/*for (int i = 0; i < 4; i ++) {
-		for-loop to populate 6 level 2 lavas(2 phineas and 2 ferb)
-	}*/
+	//level3 has 9 lavas
 	ArrayList<Lava> level3 = new ArrayList<Lava>();
-	/*for (int i = 0; i < _; i ++) {
-		for-loop to populate _ level 3 lavas(_ phineas and _ ferb)
-	}*/
+	
 	//setting up arrays that contain gem objects for each level
 	ArrayList<Gems> level1Gems = new ArrayList<Gems>();
-	//for loop to set up gems
 	ArrayList<Gems> level2Gems = new ArrayList<Gems>();
-	//for loop to set up gems
-	ArrayList<Gems> level3Gems = new ArrayList<Gems>();
-	//for loop to set up games
-	
+	ArrayList<Gems> level3Gems = new ArrayList<Gems>();	
 	
 	public void paint(Graphics g) {
 		super.paintComponent(g);
+		//level1 LAVAS
+		level1.add(new Lava("phineasLavat.gif", x1+90 , y1+50 ));
+		level1.add(new Lava("phineasLavat.gif", x1+350  , y1+280 ));
+		level1.add(new Lava("ferbLavat.gif", x1+500 , y1+50 ));
+		level1.add(new Lava("ferbLavat.gif", x1+200 , y1+280 ));
+		level1.add(new Lava("phineasLavat.gif", x1+80 , y1+640 ));
+		level1.add(new Lava("phineasLavat.gif", x1+125 , y1+640 ));
+		level1.add(new Lava("phineasLavat.gif", x1+155 , y1+640 ));
+		level1.add(new Lava("ferbLavat.gif", x1+340 , y1+640 ));
+		level1.add(new Lava("ferbLavat.gif", x1+375 , y1+640 ));
+		level1.add(new Lava("ferbLavat.gif", x1+415 , y1+640 ));
+
+		//level1 GEMS
+		level1Gems.add(new Gems("gearGEM2t.gif", x1+170, y1+120));
+		level1Gems.add(new Gems("hammerGEM1t.gif", x1+580, y1+120));
+		//level1Gems.add(new Gems("gearGEM2t.gif", x1+170, y1+120));
+		//level1Gems.add(new Gems("hammerGEM1t.gif", x1+170, y1+120));
+		//level1Gems.add(new Gems("gearGEM2t.gif", x1+170, y1+120));
+		//level1Gems.add(new Gems("hammerGEM1t.gif", x1+170, y1+120));
+
+		//level2 LAVAS
+		//level2.add(new Lava("phineasLavat.gif", x1+ , y1+ ));
+		//level2.add(new Lava("ferbLavat.gif", x1+ , y1+ ));
+		
+		//level2 GEMS
+		
+		
+		//level3 LAVAS
+		//level3.add(new Lava("phineasLavat.gif", x1+ , y1+ ));
+		//level3.add(new Lava("ferbLavat.gif", x1+ , y1+ ));
+
+		//level3 GEMS
 		
 		//setting up the homepage of the game
 		homepage.paint(g);
 		one.paint(g);
 		two.paint(g);
 		three.paint(g);
-			
+		
 		if (firstStart) {//checking if button to play level 1 has been pressed/'hit'
 			back.paint(g);
 			first.paint(g);
 			pause.paint(g);
+			//lavas
+			level1.get(0).paint(g);//orange
+			level1.get(1).paint(g);//orange
+			level1.get(2).paint(g);//green
+			level1.get(3).paint(g);//green
+			level1.get(4).paint(g);//orange
+			level1.get(5).paint(g);//orange
+			level1.get(6).paint(g);//orange
+			level1.get(7).paint(g);//green
+			level1.get(8).paint(g);//green
+			level1.get(9).paint(g);//green
+			//gems
+			level1Gems.get(0).paint(g);//gear
+			level1Gems.get(1).paint(g);//hammer
+
+			//set players at bottom left screen
 			p.paint(g);
 			//if button has been pressed, draw the corresponding level and its components
 			
@@ -97,6 +140,20 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 				//p.setFlor(p.getY());
 			} else {
 				p.setFlor(695);
+			}
+			
+			//checking if phineas stepped into green
+			if(p.crossedLava(level1.get(2)) || p.crossedLava(level1.get(3)) || p.crossedLava(level1.get(7)) || p.crossedLava(level1.get(8)) || p.crossedLava(level1.get(9))){
+				p.dissapear(null);
+				p.stop();
+				canRestart = true;
+			}
+			//checking if ferb stepped into orange
+			
+			
+			//did corresponding player collect their gem
+			if(p.grabbedGem(level1Gems.get(0))) {
+				level1Gems.get(0).collected(null);
 			}
 		}
 		if (secondStart) {//checking if button to play level 2 has been pressed/'hit'
@@ -126,7 +183,6 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			if(third.getclr(p.getX()+28,p.getY()+76) == true) {
 				//phineas/ferb objects search for the specific color that they're allowed to step on 
 				
-				//System.out.println("yas");
 				p.setFlor(p.getY());
 				//p.setFlor(p.getY());
 			} else {
@@ -145,15 +201,19 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			two.paint(g);
 			three.paint(g);
 			home = false;
-			p.restart();
+			p.restart("Phineas.png");
 			//players are returned to homepage, i.e. homepage is redrawn
 		}
 		if(tryagain) {
+			canRestart = false;
 			if (firstStart) {//checking if button to play level 1 has been pressed/'hit'
+				
 				back.paint(g);
 				first.paint(g);
 				pause.paint(g);
-				p.restart(); 
+				p.restart("Phineas.png");
+				level1Gems.get(0).restart("gearGEM2t.gif");
+				level1Gems.get(0).paint(g);
 				//if button has been pressed, draw the corresponding level and its components
 				
 				if(first.getclr(p.getX()+28,p.getY()+76) == true) {
@@ -169,7 +229,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 				back.paint(g);
 				second.paint(g);
 				pause.paint(g);
-				p.restart();
+				p.restart("Phineas.png");
 				//if button has been pressed, draw the corresponding level and its components
 				
 				if(second.getclr(p.getX()+28,p.getY()+76) == true) {
@@ -185,7 +245,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 				back.paint(g);
 				third.paint(g);
 				pause.paint(g);
-				p.restart();
+				p.restart("Phineas.png");
 				//if button has been pressed, draw the corresponding level and its components
 				
 				if(third.getclr(p.getX()+28,p.getY()+76) == true) {
@@ -201,22 +261,6 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			tryagain = false;
 		}
 		
-		//System.out.println(p.getY());
-		//System.out.println(third.getclr(p.getX() + 30,p.getY()+90));
-		//System.out.println(homepage.getclr(p.getX()+10,p.getY()/100));
-		
-		/*
-		if(third.getclr(p.getX()+20,p.getY()+70) == true) {
-			p.setLwall(p.getX());
-	
-		} 
-		
-		/*
-		
-		if(third.getclr(p.getX()+30,p.getY()+70) == true) {
-			p.setRwall(p.getX());
-			
-		} \\*/
 		
 	}
 	
@@ -237,8 +281,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		Timer t = new Timer(16, this);
 		t.start();
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		f.setVisible(true);
-		
+		f.setVisible(true);	
 		
 	}
 	
@@ -314,6 +357,9 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			System.out.println("jump");
 			p.jump();
 		}
+		if(canRestart) {
+			p.stop();
+		}
 	}
 
 	@Override
@@ -321,15 +367,6 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		// TODO Auto-generated method stub
 		
 		p.stop();
-		/*
-		if (arg0.getKeyCode() == 39) { 
-			p.stop();
-		}
-		if (arg0.getKeyCode() == 37) { 
-			p.stop();
-		}
-		
-		*/
 		
 		
 	}
