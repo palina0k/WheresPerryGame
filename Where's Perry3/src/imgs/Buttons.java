@@ -74,10 +74,10 @@ public class Buttons{
 	//helper method for pressing button on home page
 	public boolean hit(MouseEvent mouse) {
 		//represent the mouse as a rectangle object
-		Rectangle m = new Rectangle(mouse.getX(), mouse.getY(), 50, 50);
+		Rectangle m = new Rectangle(mouse.getX(), mouse.getY(), 30, 30);
 			
 		//level press box
-		Rectangle d = new Rectangle(x,y, 75, 75);
+		Rectangle d = new Rectangle(x+20,y+20, 50, 50);
 			
 		//check if the two boxes overlap
 		if(m.intersects(d)) {

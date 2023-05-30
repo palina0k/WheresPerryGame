@@ -19,7 +19,7 @@ public class Player{
 	private Image img; 	
 	private AffineTransform tx;
 	private int x,y;
-	private double vx, vy;
+	private double vx ,vy;
 	private int floor= 700;
 	private int Lwall= 0;
 	private int Rwall= 700;
@@ -29,7 +29,7 @@ public class Player{
 
 	public Player(String fileName) {
 		img = getImage("/imgs/"+fileName); //load the image for Phineas
-		x = 0;
+		x = 30;
 		y = 0;
 		tx = AffineTransform.getTranslateInstance(x, y); 
 		
@@ -56,15 +56,8 @@ public class Player{
 		tx.scale(.05, .05);
 	}
 	
-	public void restart(String filename) {
-		dissapear(getImage("/imgs/"+filename));
-		x = 0;
-		y = 0;
-	}
-	
 	public void stop(){
-		vx = 0;
-			
+		vx = 0;	
 	}
 	
 	public int getX() {
@@ -142,7 +135,7 @@ public class Player{
 		//represent mouse as rectangle
 		Rectangle p = new Rectangle(x,y,70,70);
 		
-		// duck hit
+		//lever
 		Rectangle l = new Rectangle (670,75,90,90);
 		
 		if(p.intersects(l)) {
@@ -154,6 +147,10 @@ public class Player{
 		return false;
 		//System.out.println("X location " + getX() + ", Y location " + getY());
 
+	}
+	public void restart(String filename) {
+		dissapear(getImage("/imgs/"+filename));
+		
 	}
 	//when steps in wrong lava
 	public void dissapear(Image image) {
