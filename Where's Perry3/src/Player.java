@@ -12,6 +12,7 @@ import java.net.URL;
 
 import javax.imageio.ImageIO;
 
+import imgs.Door;
 import imgs.Gems;
 import imgs.Lava;
 
@@ -24,13 +25,13 @@ public class Player{
 	private int Lwall= 0;
 	private int Rwall= 700;
 	private int ceil= 10;
-	private double gravity = 0.1;
+	private double gravity = 0.15;
 	
 
 	public Player(String fileName) {
 		img = getImage("/imgs/"+fileName); //load the image for Phineas
 		x = 30;
-		y = 0;
+		y = 30;
 		tx = AffineTransform.getTranslateInstance(x, y); 
 		
 	}
@@ -106,7 +107,7 @@ public class Player{
 	
 	public void update() {
 		tx = AffineTransform.getTranslateInstance(x, y);
-		tx.scale(0.75,0.75);
+		tx.scale(0.65,0.65);
 		x += vx;
 		y += vy;
 		vy += gravity;
@@ -120,6 +121,11 @@ public class Player{
 			vy+= gravity;
 		}
 		
+		if(y <= ceil) {
+			vy = 6;
+			
+		}
+		
 		if(x <= Lwall) {
 			x = Lwall;
 		}
@@ -127,7 +133,7 @@ public class Player{
 			x = Rwall;
 		}
 		
-		touchLev();
+		//touchLev();
 	
 	}
 	
@@ -148,13 +154,17 @@ public class Player{
 		//System.out.println("X location " + getX() + ", Y location " + getY());
 
 	}
-	public void restart(String filename) {
+	public void restart(String filename, int initx, int inity) {
 		dissapear(getImage("/imgs/"+filename));
+		x = initx;
+		y = inity;
+		update();
 		
 	}
 	//when steps in wrong lava
 	public void dissapear(Image image) {
 		img = image;
+		vx = 0;
 	}
 	
 	public double getHeight() {
@@ -169,7 +179,7 @@ public class Player{
 		Rectangle lava = new Rectangle(l.getX()+60, l.getY()+105, 80, 20);
 					
 		//level press box
-		Rectangle player = new Rectangle(x+15, y, 20, 80);
+		Rectangle player = new Rectangle(x+15, y, 20, 63);
 		
 		if(player.intersects(lava)) {
 			crossed = true;
@@ -186,13 +196,29 @@ public class Player{
 		Rectangle gems = new Rectangle(gem.getX(), gem.getY(), 35, 35);
 							
 		//level press box
-		Rectangle player = new Rectangle(x+15, y, 20, 80);
+		Rectangle player = new Rectangle(x+15, y, 20, 63);
 				
 		if(player.intersects(gems)) {
 			didGrab = true;
 		}
 		
 		return didGrab;
+	}
+	
+	//helper method for detecting when both players are at the door
+	public boolean touchDoor(Door door) {
+		//represent the door as a rectangle object
+		Rectangle m = new Rectangle(door.getX(), door.getY(), 30, 30);
+				
+		//player rectangle
+		Rectangle p = new Rectangle(x+15,y, 20, 63);
+				
+		//check if the two boxes overlap
+		if(m.intersects(p)) {
+			return true;
+		}
+				
+			return false;
 	}
 	
 	private Image getImage(String path) {

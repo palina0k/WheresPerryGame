@@ -75,6 +75,9 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	ArrayList<Gems> level2Gems = new ArrayList<Gems>();
 	ArrayList<Gems> level3Gems = new ArrayList<Gems>();
 	
+	//doors in each level
+	
+	
 	//private long starttime; 
 
 	
@@ -121,7 +124,6 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		
 		if (firstStart) {//checking if button to play level 1 has been pressed/'hit'
 			//if button has been pressed, draw the corresponding level and its components
-
 			back.paint(g);
 			first.paint(g);
 			pause.paint(g);
@@ -145,59 +147,71 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			p2.paint(g);
 			
 			//checking where phineas can walk (i.e. actual ground) and setting up his body's left and right bounds
-			if(first.getclr(p.getX() + 28,p.getY()+76)){
+			if(first.getclr(p.getX() + 25,p.getY()+64) || first.getclr(p.getX()+15,p.getY()+30) || first.getclr(p.getX()+20, p.getY()+30) ){
 				p.setFlor(p.getY());
+				/*if(first.getclr(p.getX()+15, p.getY()+58)) {
+					p.setLwall(p.getX()+15);
+				}
+				if(first.getclr(p.getX()+50, p.getY()+58)) {
+					p.setRwall(p.getX()+50);
+				}*/
 			} else {
 				p.setFlor(795);
 			}
-			if(first.getclr(p.getX() + 5,p.getY()+76)) {
-				p.setLwall(p.getX());
-		
+			if(first.getclr(p.getX(), p.getY())){
+				p.setCeil(p.getY());
+			}else {
+				p.setCeil(10);
+			}
+			/*if(first.getclr(p.getX() + 5,p.getY()+76)) {
+				p.setLwall(p.getX()+5);
 			}else {
 				p.setLwall(10);
 			}
 			g.drawRect(p.getX(), p.getY()+76, 10, 10);
-			if(first.getclr(p.getX()+ 45,p.getY()+76)) {
-				p.setRwall(p.getX());
+			if(first.getclr(p.getX()+ 40,p.getY()+76)) {
+				p.setRwall(p.getX()+40);
 			}else {
 				p.setRwall(695);
 			}
 			g.drawRect(p.getX()+ 10, p.getY()+76, 10, 10);
-			
+			*/
 			//checking when ferb can walk(i.e. actual ground) and setting up his body's left and right bounds
-			if(first.getclr(p2.getX()+28,p2.getY()+76)) {
+			if(first.getclr(p2.getX() + 25,p2.getY()+64) || first.getclr(p2.getX()+15,p2.getY()+30) || first.getclr(p2.getX()+20, p2.getY()+30) ) {
 				p2.setFlor(p2.getY());
 			} else {
 				p2.setFlor(795);
 			}
-			if(first.getclr(p2.getX() + 5,p2.getY()+76) == true) {
+			if(first.getclr(p2.getX(), p2.getY())){
+				p2.setCeil(p2.getY());
+			}else {
+				p2.setCeil(10);
+			}
+			/*if(first.getclr(p2.getX() + 5,p2.getY()+76) == true) {
 				p2.setLwall(p2.getX()+5);
 		
 			}else {
 				p2.setLwall(10);
 			}
 			g.drawRect(p2.getX(), p2.getY()+76, 10, 10);
-			if(first.getclr(p2.getX()+ 45,p2.getY()+76) == true) {
-				p2.setRwall(p2.getX()+45);
+			if(first.getclr(p2.getX()+ 30,p2.getY()+76) == true) {
+				p2.setRwall(p2.getX()+30);
 			}else {
-				p2.setRwall(795);
+				p2.setRwall(695);
 			}
 			g.drawRect(p2.getX()+ 10, p2.getY()+76, 10, 10);
+			*/
 			
 			//checking if phineas stepped into green
 			if(p.crossedLava(level1.get(2)) || p.crossedLava(level1.get(3)) || p.crossedLava(level1.get(7)) || p.crossedLava(level1.get(8)) || p.crossedLava(level1.get(9))){
 				p.dissapear(null);
-				p.stop();
 				p2.dissapear(null);
-				p2.stop();
 				canRestart = true;
 			}
 			//checking if ferb stepped into orange
 			if(p2.crossedLava(level1.get(0)) || p2.crossedLava(level1.get(1)) || p2.crossedLava(level1.get(4)) || p2.crossedLava(level1.get(5)) || p2.crossedLava(level1.get(6))){
 				p2.dissapear(null);
-				p2.stop();
 				p.dissapear(null);;
-				p.stop();
 				canRestart = true;
 			}
 			
@@ -208,6 +222,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 
 		}
 		if (secondStart) {//checking if button to play level 2 has been pressed/'hit'
+			
 			back.paint(g);
 			second.paint(g);
 			pause.paint(g);
@@ -215,23 +230,35 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			p2.paint(g);
 			//if button has been pressed, draw the corresponding level and its components
 
-			if(second.getclr(p.getX() + 28,p.getY()+76) == true && second.getclr(p.getX() + 28,p.getY()+66) == false) {
+			//checking where phineas can walk (i.e. actual ground) and setting up his body's left and right bounds
+			if(second.getclr(p.getX() + 25,p.getY()+64) || second.getclr(p.getX()+15,p.getY()+30) || second.getclr(p.getX()+20, p.getY()+30) ){
 				p.setFlor(p.getY());
+				/*if(first.getclr(p.getX()+15, p.getY()+58)) {
+					p.setLwall(p.getX()+15);
+				}
+				if(first.getclr(p.getX()+50, p.getY()+58)) {
+					p.setRwall(p.getX()+50);
+				}*/
 			} else {
-				p.setFlor(795);	
+				p.setFlor(795);
 			}
-			if(second.getclr(p.getX()+5,p.getY()+76) == true) {
-				p.setLwall(p.getX());
-		
-			} else {
-				p.setLwall(10);
-			}
-			if(second.getclr(p.getX()+ 45,p.getY()+76) == true) {
-				p.setRwall(p.getX());
-				
-			} else { 
-				p.setRwall(790);
+			if(second.getclr(p.getX(), p.getY())){
+				p.setCeil(p.getY());
+			}else {
+				p.setCeil(10);
 			}	
+			
+			//checking when ferb can walk(i.e. actual ground) and setting up his body's left and right bounds
+			if(second.getclr(p2.getX() + 25,p2.getY()+64) || second.getclr(p2.getX()+15,p2.getY()+30) || second.getclr(p2.getX()+20, p2.getY()+30) ) {
+				p2.setFlor(p2.getY());
+			} else {
+				p2.setFlor(795);
+			}
+			if(second.getclr(p2.getX(), p2.getY())){
+				p2.setCeil(p2.getY());
+			}else {
+				p2.setCeil(10);
+			}
 			
         }
 		if (thirdStart) {//checking if button to play level 3 has been pressed/'hit'
@@ -329,9 +356,9 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 				back.paint(g);
 				first.paint(g);
 				pause.paint(g);
-				//p.restart("Phin.png");
-				//p2.restart("Ferb.png");
+				p.restart("Phin.png", 30, 30);
 				p.paint(g);
+				p2.restart("Ferb.png", 30, 30);
 				p2.paint(g);
 				//lavas
 				level1.get(0).paint(g);//orange
@@ -430,8 +457,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 				} else {
 					p.setFlor(695);
 				}
-			}	
-			tryagain = false;	
+			}		
 	}
 }	
 	
@@ -480,12 +506,18 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 
 		if(one.hit(arg0)) {
 			firstStart = true;
+			secondStart = false;
+			thirdStart = false;
 		}
 		if(two.hit(arg0)) {
 			secondStart = true;
+			firstStart = false;
+			thirdStart = false;
 		}
 		if(three.hit(arg0)) {
 			thirdStart = true;
+			firstStart = false;
+			secondStart = false;
 		}
 		if(pause.hit(arg0)) {
 			canRestart = true;
@@ -519,12 +551,12 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		// TODO Auto-generated method stub
 		System.out.println(arg0.getKeyCode());
 		if (arg0.getKeyCode() == 39) { 
-			p.moveRight();
 			p.changePicture("Phin.png");
+			p.moveLeft();
 		}
 		if (arg0.getKeyCode() == 37) { 
-			p.moveLeft();
-			p.changePicture("Phinflip.png");;
+			p.changePicture("Phinflip.png");
+			p.moveRight();
 		}
 		if (arg0.getKeyCode() == 38) { 
 			p.jump();
@@ -533,12 +565,12 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		
 		
 		if (arg0.getKeyCode() == 68) { 
-			p2.moveLeft();
 			p2.changePicture("Ferb.png");
+			p2.moveLeft();
 		}
 		if (arg0.getKeyCode() == 65) { 
-			p2.moveRight();
 			p2.changePicture("Ferbflip.png");
+			p2.moveRight();
 		}
 		if (arg0.getKeyCode() == 87) { 
 			p2.jump();
@@ -554,10 +586,12 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	@Override
 	public void keyReleased(KeyEvent arg0) {
 		// TODO Auto-generated method stub
-		
-		p2.stop();
-		p.stop();
-		
+		if (arg0.getKeyCode() == 39 || arg0.getKeyCode() == 37) { 
+			p.stop();
+		}
+		if (arg0.getKeyCode() == 68 || arg0.getKeyCode() == 65) { 
+			p2.stop();
+		}
 		
 	}
 
