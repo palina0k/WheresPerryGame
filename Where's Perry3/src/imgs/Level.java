@@ -54,13 +54,21 @@ public class Level {
 	
 	public boolean getclr(int x, int y) {
 		boolean check = false;
-		Color c = new Color(color.getRGB(x, y));
+		//Color c = new Color(color.getRGB(x, y));
 	
-		if(c.getRed() == 48 && c.getGreen() == 31 && c.getBlue() == 23) {
+		int clr = color.getRGB(x, y);
+        int red =   (clr & 0x00ff0000) >> 16;
+        int green = (clr & 0x0000ff00) >> 8;
+        int blue =   clr & 0x000000ff;
+		if(red == 48 && green == 31 && blue == 23) {
+			check = true;
+		}
+		
+		/*if(c.getRed() == 48 && c.getGreen() == 31 && c.getBlue() == 23) {
 			//return true;
 			check = true;
 			//return true;
-		}
+		}*/
 
 		return check;	
 	}

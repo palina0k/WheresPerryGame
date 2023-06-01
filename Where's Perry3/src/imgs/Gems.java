@@ -44,13 +44,9 @@ public class Gems {
 		g.drawRect(x, y, 35, 35);
 	}
 	
+	//when gems get collected
 	public void restart(String filename) {
 		img = getImage(filename);
-	}
-		
-	//when gem gets collected
-	public void collected(Image img) {
-		this.img = img;
 	}
 	
 	public int getX() {

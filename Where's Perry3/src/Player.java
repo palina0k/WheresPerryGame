@@ -22,8 +22,8 @@ public class Player{
 	private int x,y;
 	private double vx ,vy;
 	private int floor= 700;
-	private int Lwall= 0;
-	private int Rwall= 700;
+	private int Lwall= 15;
+	private int Rwall= 750;
 	private int ceil= 10;
 	private double gravity = 0.15;
 	
@@ -158,6 +158,8 @@ public class Player{
 		dissapear(getImage("/imgs/"+filename));
 		x = initx;
 		y = inity;
+		Lwall = 15;
+		Rwall = 750;
 		update();
 		
 	}
@@ -175,10 +177,10 @@ public class Player{
 	public boolean crossedLava(Lava l) {
 		boolean crossed = false;
 		
-		//represent the mouse as a rectangle object
+		//represent the lava as a rectangle object
 		Rectangle lava = new Rectangle(l.getX()+60, l.getY()+105, 80, 20);
 					
-		//level press box
+		//player rectangle box
 		Rectangle player = new Rectangle(x+15, y, 20, 63);
 		
 		if(player.intersects(lava)) {
@@ -192,10 +194,11 @@ public class Player{
 	//helper method to detect if player picked up correct gem
 	public boolean grabbedGem(Gems gem) {
 		boolean didGrab = false;
-		//represent the mouse as a rectangle object
+		
+		//represent the gem as a rectangle object
 		Rectangle gems = new Rectangle(gem.getX(), gem.getY(), 35, 35);
 							
-		//level press box
+		//player rectangle box
 		Rectangle player = new Rectangle(x+15, y, 20, 63);
 				
 		if(player.intersects(gems)) {
