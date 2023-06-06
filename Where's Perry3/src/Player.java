@@ -21,17 +21,15 @@ public class Player{
 	private AffineTransform tx;
 	private int x,y;
 	private double vx ,vy;
-	private int floor= 700;
+	private int floor= 790;
 	private int Lwall= 15;
-	private int Rwall= 750;
+	private int Rwall= 790;
 	private int ceil= 10;
-	private double gravity = 0.15;
+	private double gravity = 0.1;
 	
 
 	public Player(String fileName) {
 		img = getImage("/imgs/"+fileName); //load the image for Phineas
-		x = 30;
-		y = 30;
 		tx = AffineTransform.getTranslateInstance(x, y); 
 		
 	}
@@ -47,9 +45,9 @@ public class Player{
 		g2.drawImage(img, tx, null);
 		update();
 		
-		g.drawRect((int) x, (int)y, 10, 10);
+		//g.drawRect((int) x, (int)y, 10, 10);
 
-		g.drawRect((int) x+15, (int) y, 20, 80);
+		//g.drawRect((int) x+25, (int) y, 25, 67);
 	}
 	
 	private void init(double a, double b) {
@@ -76,14 +74,13 @@ public class Player{
 	}
 	
 	public void moveLeft(){
-		vx = 3;
-		
+		vx=3;		
 		
 	}
 	
 	public void jump() {
 		if(y == floor) {
-			vy = -6;
+			vy = -7;
 		}
 		
 
@@ -135,6 +132,15 @@ public class Player{
 		
 		//touchLev();
 	
+		if (y >= 795) {
+			y = 690;
+		}
+		if (x <= 0) {
+			x = 15;
+		}
+		if(x >= 795) {
+			x = 770;
+		}
 	}
 	
 	public boolean touchLev() {
@@ -159,7 +165,7 @@ public class Player{
 		x = initx;
 		y = inity;
 		Lwall = 15;
-		Rwall = 750;
+		Rwall = 790;
 		update();
 		
 	}
@@ -211,7 +217,7 @@ public class Player{
 	//helper method for detecting when both players are at the door
 	public boolean touchDoor(Door door) {
 		//represent the door as a rectangle object
-		Rectangle m = new Rectangle(door.getX(), door.getY(), 30, 30);
+		Rectangle m = new Rectangle(door.getX()+50, door.getY()+50, 60, 60);
 				
 		//player rectangle
 		Rectangle p = new Rectangle(x+15,y, 20, 63);

@@ -20,10 +20,10 @@ public class Perry{
 	private int x,y;
 	
 
-	public Perry() {
+	public Perry(int x, int y) {
 		img = getImage("/imgs/perry.png"); //load the image for Perry
-		x = 30;//change for each level
-		y = 30;//change for each level
+		this.x = x;//change for each level
+		this.y = y;//change for each level
 		tx = AffineTransform.getTranslateInstance(x, y); 
 		
 	}
@@ -43,11 +43,11 @@ public class Perry{
 	
 	private void init(double a, double b) {
 		tx.setToTranslation(a,b);
-		tx.scale(.05, .05);
+		tx.scale(1,1);
 	}
 	public void update() {
 		tx = AffineTransform.getTranslateInstance(x, y);
-		tx.scale(0.65,0.65);
+		tx.scale(1,1);
 	
 	}
 	

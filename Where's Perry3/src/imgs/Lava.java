@@ -41,7 +41,7 @@ public class Lava {
 		Graphics2D g2 = (Graphics2D) g;
 		update();
 		g2.drawImage(img, tx, null);
-		g.drawRect(x+60, y+105, 80, 20);
+		//g.drawRect(x+60, y+105, 80, 20);
 
 	}
 	

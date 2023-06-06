@@ -20,12 +20,12 @@ public class Door {
 	private AffineTransform tx; 
 		
 	//default constructor
-	public Door() {
+	public Door(int x, int y) {
 		img2 = getImage("/imgs/door.png");  //load the image
 		tx = AffineTransform.getTranslateInstance(x,y);
 		//initialize the location of the image, use your variables
-		x = 0;
-		y = 0;
+		this.x = x;
+		this.y = y;
 	}	
 		
 	public void changePicture(String newFileName) {
@@ -44,12 +44,12 @@ public class Door {
 	//update the picture variable location
 	private void update() {
 		tx.setToTranslation(x, y);
-		tx.scale(1,1);
+		tx.scale(2,2);
 	}
 	
 	private void init(double a, double b) {
 		tx.setToTranslation(a, b);
-		tx.scale(1,1);
+		tx.scale(2,2);
 	}
 
 	private Image getImage(String path) {

@@ -41,7 +41,7 @@ public class Gems {
 		update();
 		g2.drawImage(img, tx, null);
 
-		g.drawRect(x, y, 35, 35);
+		//g.drawRect(x, y, 35, 35);
 	}
 	
 	//when gems get collected
