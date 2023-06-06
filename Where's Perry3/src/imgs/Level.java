@@ -56,12 +56,19 @@ public class Level {
 		boolean check = false;
 		Color c = new Color(color.getRGB(x, y));
 	
-	
+		//System.out.println(c.getRed() + ", " + c.getGreen() + ", " + c.getBlue());
 		if(c.getRed() == 48 && c.getGreen() == 31 && c.getBlue() == 23) {
 			//return true;
 			check = true;
 			//return true;
 		}
+		
+		/*else if(c.getRed() == 51 && c.getGreen() == 30 && c.getBlue() == 22) {
+			//return true;
+			check = true;
+			//return true;
+		}
+		*/
 
 		return check;	
 	}
