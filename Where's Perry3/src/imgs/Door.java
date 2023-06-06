@@ -14,30 +14,19 @@ import java.net.URL;
 
 import javax.imageio.ImageIO;
 
-public class Level {
+public class Door {
 	private int x,y; //location attributes
 	private Image img2; 	
-	private AffineTransform tx;
-	private BufferedImage color;
- 
+	private AffineTransform tx; 
 		
 	//default constructor
-	public Level() {
-		img2 = getImage("/imgs/test.png");  //load the image
+	public Door(int x, int y) {
+		img2 = getImage("/imgs/door.png");  //load the image
 		tx = AffineTransform.getTranslateInstance(x,y);
 		//initialize the location of the image, use your variables
-		x = 0;
-		y = 0;
-	}
-		
-	//constructor that allows specifying the file name of the image
-	//sets fileName of the image to use
-	public Level(String fileName) {
-		img2 = getImage("/imgs/" + fileName);
-		tx = AffineTransform.getTranslateInstance(x,y);
-		init(x,y);
-	}
-		
+		this.x = x;
+		this.y = y;
+	}	
 		
 	public void changePicture(String newFileName) {
 		img2 = getImage(newFileName);
@@ -51,54 +40,43 @@ public class Level {
 		g2.drawImage(img2, tx, null);
 
 	}
-	
-	public boolean getclr(int x, int y) {
-		boolean check = false;
-		Color c = new Color(color.getRGB(x, y));
-		//System.out.println(c.getRed() + ", " + c.getGreen() + ", " + c.getBlue());
-		if(c.getRed() == 48 && c.getGreen() == 31 && c.getBlue() == 23) {
-			check = true;
-		}
-		return check;	
-	}
-	
-	
-	public int returnClr(int x, int y) {
-		boolean check = false;
-		Color c = new Color(color.getRGB(x, y));
-		if(c.getRed() == 48 && c.getGreen() == 31 && c.getBlue() == 23) {
-			//return true;
-			check = true;
-			//return true;
-		}
-		return (c.getRed() + c.getGreen() + c.getBlue());	
-		/*
-		System.out.println("Red Color value = " + red);
-        System.out.println("Green Color value = " + green);
-        System.out.println("Blue Color value = " + blue);
-        */
-	}
 		
 	//update the picture variable location
 	private void update() {
 		tx.setToTranslation(x, y);
-		tx.scale(1,1);
+		tx.scale(2,2);
 	}
 	
 	private void init(double a, double b) {
 		tx.setToTranslation(a, b);
-		tx.scale(1,1);
+		tx.scale(2,2);
 	}
 
 	private Image getImage(String path) {
 		Image tempImage = null;
 		try {
 			URL imageURL = Level.class.getResource(path);
-			color = ImageIO.read(imageURL);
 			tempImage = Toolkit.getDefaultToolkit().getImage(imageURL);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return tempImage;
 	}
+
+	public int getX() {
+		return x;
+	}
+
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public void setY(int y) {
+		this.y = y;
+	}
+	
 }
