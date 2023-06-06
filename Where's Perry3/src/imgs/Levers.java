@@ -16,23 +16,39 @@ import javax.imageio.ImageIO;
 
 public class Levers {
 	private int x,y; //location attributes
-	private Image img; 	
+	private Image img; 	 	
 	private AffineTransform tx;
 	private BufferedImage color;
+	int ct = 0; 
 		
 	//constructor that allows specifying the file name of the image
 	//sets fileName of the image to use
-	public Levers(String fileName, int initx, int inity) {
-		img = getImage("/imgs/" + fileName);//load the image
+	public Levers(int initx, int inity) {
+		img = getImage("/imgs/" + "LeverUnchanged.png");//load the image
 		tx = AffineTransform.getTranslateInstance(x,y);
 		x = initx;
 		y = inity;
 	}
 		
 		
-	public void changePicture(String newFileName) {
-		img = getImage(newFileName);
-		init(x,y);
+	public void changePicture(int initx, int inity) {
+		img = getImage("/imgs/" + "LeverChanged.png");
+		x = initx;
+		y = inity;
+	}
+	
+	public void changeBack(int initx, int inity) {
+		img = getImage("/imgs/" + "LeverUnchanged.png");
+		x = initx;
+		y = inity;
+	}
+	
+	public int getCt() {
+		return ct;
+	}
+	
+	public void setCt(int val) {
+		ct = val;
 	}
 		
 	public void paint(Graphics g) {

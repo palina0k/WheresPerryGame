@@ -3,6 +3,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridLayout;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -11,10 +12,12 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -25,18 +28,27 @@ import imgs.Door;
 import imgs.Gems;
 import imgs.Lava;
 import imgs.Levers;
-import imgs.Perry;
+import imgs.Platform;
 import imgs.RestartMenu;
+import imgs.Candace;
 
 
 public class Frame extends JPanel implements ActionListener, MouseListener, KeyListener {
 	
+	double start;
+	double finish;
+	double time;
+	double Tottime;
+	Player p = new Player("Phin.png");
+	Player p2 = new Player("Ferb.png");
 	Background homepage = new Background();
 	boolean home = false;
+
 	//setting up homepage buttons that let user access levels 1-3
 	Buttons one = new Buttons("level1logo.png", 130, 275);
 	Buttons two = new Buttons("level2logo.png", 230, 275);
 	Buttons three = new Buttons("level3logo.png", 520, 270);
+	
 	//pause button that appears in every level
 	Buttons pause = new Buttons("pause.png", 730, 0);
 	
@@ -44,8 +56,11 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	Player p = new Player("Phin.png");
 	Player p2 = new Player("Ferb.png");
 	
-	//levers
-	Levers lev1 = new Levers("LeverUnchanged.png", 670, 75);
+	//levers	
+	Levers lev1 = new Levers(670, 75);
+	Levers lev2 = new Levers(530, 370);
+	Platform pl = new Platform("platform.png", 50,480);
+	Platform pl2 = new Platform("platform2.png",200,410);
 	
 	//setting up the visual backgrounds and maze contents of levels
 	Background back = new Background("background.png");
@@ -53,15 +68,19 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	boolean firstStart = false;
 	Level second = new Level("level2.png");
 	boolean secondStart = false;
-	Level third = new Level("level3v.png");
+	Level third = new Level("level3.png");
 	boolean thirdStart = false;
 	
 	//attributes of the menu pop-up
 	RestartMenu restartMenu = new RestartMenu();
+	Candace candace = new Candace();
 	boolean canRestart = false;
 	Buttons restart = new Buttons("restart.png", 330, 420);
 	boolean tryagain = false;
 	Buttons menu = new Buttons("menu.png", 460, 420);
+	
+	//keep track of started or not
+	boolean started = false;
 	
 	//setting up arrays that contain lava objects for each level
 	int x1= 0;
@@ -72,7 +91,6 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	ArrayList<Lava> level2 = new ArrayList<Lava>();
 	//level3 has 9 lavas
 	ArrayList<Lava> level3 = new ArrayList<Lava>();
-	
 	//setting up arrays that contain gem objects for each level
 	ArrayList<Gems> level1Gems = new ArrayList<Gems>();
 	ArrayList<Gems> level2Gems = new ArrayList<Gems>();
@@ -94,9 +112,6 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	Perry perry3 = new Perry(40,615);
 	
 	
-	//private long starttime; 
-
-	
 	public void paint(Graphics g) {
 		super.paintComponent(g);
 		
@@ -111,6 +126,10 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		level1.add(new Lava("ferbLavat.gif", x1+340 , y1+655 ));
 		level1.add(new Lava("ferbLavat.gif", x1+375 , y1+655 ));
 		level1.add(new Lava("ferbLavat.gif", x1+415 , y1+655 ));
+
+		Font plainFont = new Font ("Press Start 2P", Font.BOLD, 30);
+        g.setFont(plainFont);
+        g.setColor(Color.black);
 
 		//level1 GEMS
 		level1Gems.add(new Gems("gearGEM2t.gif", x1+170, y1+120));
@@ -198,6 +217,19 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			level1Gems.get(4).paint(g);//gear
 			level1Gems.get(5).paint(g);//hammer
 			
+			//set players at bottom left screen
+			p.paint(g);
+			p2.paint(g);
+
+			if(!started) {
+				start = System.currentTimeMillis();
+				started = true;
+			}
+			time = (System.currentTimeMillis() - start)/1000.0;
+			g.drawString("Time: " + time,300,40);
+			g.drawString("Stand at lever + press space to move",200,100);
+
+
 			//checking where phineas can walk (i.e. actual ground) and setting up his body's left and right bounds
 			if(first.getclr(p.getX() + 25,p.getY()+67) && first.getclr(p.getX()+25, p.getY()+62)==false /*|| first.getclr(p.getX()+15,p.getY()+30) || first.getclr(p.getX()+20, p.getY()+30)*/ ){
 				p.setFlor(p.getY());
@@ -234,7 +266,6 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 				p2.setCeil(10);
 			}
 			
-			
 			//checking if phineas stepped into green in level 1
 			if(p.crossedLava(level1.get(2)) || p.crossedLava(level1.get(3)) || p.crossedLava(level1.get(7)) || p.crossedLava(level1.get(8)) || p.crossedLava(level1.get(9))){
 				p.dissapear(null);
@@ -254,7 +285,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 				touchd1 = true;
 				canRestart = true;
 			}
-			
+
 		}
 		if (secondStart) {//checking if button to play level 2 has been pressed/'hit'
 			
@@ -268,7 +299,6 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			perry2.paint(g);
 			//door is drawn over perry
 			d2.paint(g);
-			
 			
 			//characters are drawn
 			p.paint(g);
@@ -289,6 +319,17 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			level2Gems.get(3).paint(g);//hammer
 			level2Gems.get(4).paint(g);//gear
 			level2Gems.get(5).paint(g);//hammer
+			
+			pl2.paint(g);
+			lev2.paint(g);
+			if(!started) {
+				start = System.currentTimeMillis();
+				started = true;
+			}
+			time = (System.currentTimeMillis() - start)/1000.0;
+			g.drawString("Time: " + time,300,40);
+			g.drawString("Stand at lever + press space to move",200,100);
+			//if button has been pressed, draw the corresponding level and its components
 			
 			//checking where phineas can walk (i.e. actual ground) and setting up his body's left and right bounds
 			if(second.getclr(p.getX() + 25,p.getY()+67) && second.getclr(p.getX()+25, p.getY()+62)==false){
@@ -354,7 +395,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			back.paint(g);
 			third.paint(g);
 			pause.paint(g);
-			
+		
 			//perry is drawn
 			perry3.paint(g);
 			//door is drawn over perry
@@ -366,7 +407,18 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 						
 			//levers are drawn
 			lev1.paint(g);
-			
+			pl.paint(g);
+			//start = System.currentTimeMillis();
+			//finish = System.currentTimeMillis();
+			//long timeElapsed = finish - start;
+			if(!started) {
+				start = System.currentTimeMillis();
+				started = true;
+			}
+			time = (System.currentTimeMillis() - start)/1000.0;
+			g.drawString("Time: " + time,300,40);
+			//if button has been pressed, draw the corresponding level and its components
+						
 			//lavas are drawn
 			level3.get(0).paint(g);//orange
 			level3.get(1).paint(g);//green
@@ -446,7 +498,8 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		}
 		
 		if(tryagain) {//user chose to restart same  level they were on before
-						
+		
+			canRestart = false;
 			if (firstStart) {//checking if button to play level 1 has been pressed/'hit'
 				back.paint(g);
 				first.paint(g);
@@ -481,6 +534,15 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 				level1Gems.get(4).paint(g);//gear
 				level1Gems.get(5).paint(g);//hammer
 				
+
+				if(!started) {
+					start = System.currentTimeMillis();
+					started = true;
+				}
+				time = (System.currentTimeMillis() - start)/1000.0;
+				g.drawString("Time: " + time,300,40);
+				g.drawString("Stand at lever + press space to move",200,100);
+
 				
 				//checking where phineas can walk (i.e. actual ground) and setting up his body's left and right bounds
 				if(first.getclr(p.getX() + 25,p.getY()+67) && first.getclr(p.getX()+25, p.getY()+62)==false){
@@ -572,6 +634,18 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 				level2Gems.get(4).paint(g);//gear
 				level2Gems.get(5).paint(g);//hammer
 
+				pl2.paint(g);
+				lev2.paint(g);
+				if(!started) {
+					start = System.currentTimeMillis();
+					started = true;
+				}
+				time = (System.currentTimeMillis() - start)/1000.0;
+				g.drawString("Time: " + time,300,40);
+				g.drawString("Stand at lever + press space to move",200,100);
+				//if button has been pressed, draw the corresponding level and its components
+			
+
 				//checking where phineas can walk (i.e. actual ground) and setting up his body's left and right bounds
 				if(second.getclr(p.getX() + 25,p.getY()+67) && second.getclr(p.getX()+25, p.getY()+62)==false){
 					p.setFlor(p.getY());
@@ -644,10 +718,40 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 				p.paint(g);
 				p2.paint(g);
 
+				
 				//lavas are reset
-				
+				level3.get(0).paint(g);//orange
+				level3.get(1).paint(g);//green
+				level3.get(2).paint(g);//orange
+				level3.get(3).paint(g);//green
+				level3.get(4).paint(g);//green
+				level3.get(5).paint(g);//orange
+				level3.get(6).paint(g);//orange
+				level3.get(7).paint(g);//green
+				level3.get(8).paint(g);//green
+				level3.get(9).paint(g);//orange
+
 				//gems are reset
+				level3Gems.get(0).paint(g);//gear
+				level3Gems.get(1).paint(g);//hammer
+				level3Gems.get(2).paint(g);//gear
+				level3Gems.get(3).paint(g);//hammer
 				
+				//levers are drawn
+				lev1.paint(g);
+				pl.paint(g);
+				//start = System.currentTimeMillis();
+				//finish = System.currentTimeMillis();
+				//long timeElapsed = finish - start;
+				if(!started) {
+					start = System.currentTimeMillis();
+					started = true;
+				}
+				time = (System.currentTimeMillis() - start)/1000.0;
+				g.drawString("Time: " + time,300,40);
+				//if button has been pressed, draw the corresponding level and its components
+			
+
 				//checking where phineas can walk (i.e. actual ground) and setting up his body's left and right bounds
 				if(third.getclr(p.getX() + 25,p.getY()+67) && third.getclr(p.getX()+25, p.getY()+62)==false){
 					p.setFlor(p.getY());
@@ -764,17 +868,18 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		if(p2.grabbedGem(level3Gems.get(3))) {//ferb collected
 			level3Gems.get(3).restart("");
 		}
-		
-		
 
 		if (canRestart) {//checking if pause button was clicked 
+			candace.paint(g);
 			restartMenu.paint(g);
 			menu.paint(g);
 			if (touchd1==false && touchd2==false && touchd3==false) {
 				restart.paint(g);
 			}
-			//pause menu components are drawn (menu button and restart the level button)
-			
+			finish = time;
+			//g.drawString("Total time: " ,300,500);
+			started = false;
+			//pause menu components are drawn (menu button and restart the level button			
 			if (touchd1 || touchd2 || touchd3) {
 				g.setColor( new Color(13, 169, 189));
 				g.fillRect(315, 390, 220, 30);
@@ -805,6 +910,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	
 	public static void main(String[] arg) {
 		Frame f = new Frame();
+		
 	}
 	
 	public Frame() {
@@ -825,6 +931,8 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		
 		
 	}
+	
+	
 	
 	
 	@Override
@@ -1015,8 +1123,39 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		if(canRestart) {
 			p.stop();
 			p2.stop();
+			
+		}
+		
+		if(p.touchLev() == true && arg0.getKeyCode() == 32 || p2.touchLev() == true && arg0.getKeyCode() == 32){
+			if (lev1.getCt() == 0) {
+				lev1.changePicture(670,75);
+				pl.move(0,200);
+				lev1.setCt(1);
+				System.out.print(lev1.getCt());
+			}else{
+				lev1.changeBack(670,75);
+				pl.move(0,-200);
+				lev1.setCt(0);
+				System.out.print(lev1.getCt());
+			}
+			
+			if (lev2.getCt() == 0) {
+				lev2.changePicture(530,370);
+				pl2.move(400,0);
+				lev2.setCt(1);
+				System.out.print(lev2.getCt());
+			}else{
+				lev2.changeBack(530,370);
+				pl2.move(-400,0);
+				lev2.setCt(0);
+				System.out.print(lev2.getCt());
+			}
+			
 		}
 
+		
+
+		
 	}
 
 	@Override

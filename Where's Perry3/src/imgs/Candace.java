@@ -1,6 +1,5 @@
 package imgs;
-import java.awt.image.BufferedImage;
-import java.awt.Color;
+
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -9,30 +8,25 @@ import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.AffineTransform;
-import java.awt.image.BufferedImage;
 import java.net.URL;
 
-import javax.imageio.ImageIO;
-
-public class Level {
+public class Candace {
 	private int x,y; //location attributes
 	private Image img2; 	
 	private AffineTransform tx;
-	private BufferedImage color;
- 
 		
 	//default constructor
-	public Level() {
-		img2 = getImage("/imgs/test.png");  //load the image
+	public Candace() {
+		img2 = getImage("/imgs/Candace.png");  //load the image
 		tx = AffineTransform.getTranslateInstance(x,y);
 		//initialize the location of the image, use your variables
-		x = 0;
-		y = 0;
+		x = 300;
+		y = 100;
 	}
 		
 	//constructor that allows specifying the file name of the image
 	//sets fileName of the image to use
-	public Level(String fileName) {
+	public Candace(String fileName) {
 		img2 = getImage("/imgs/" + fileName);
 		tx = AffineTransform.getTranslateInstance(x,y);
 		init(x,y);
@@ -41,7 +35,7 @@ public class Level {
 		
 	public void changePicture(String newFileName) {
 		img2 = getImage(newFileName);
-		init(x,y);
+		init(0, 0);
 	}
 		
 	public void paint(Graphics g) {
@@ -51,59 +45,22 @@ public class Level {
 		g2.drawImage(img2, tx, null);
 
 	}
-	
-	public boolean getclr(int x, int y) {
-		boolean check = false;
-		Color c = new Color(color.getRGB(x, y));
-	
-		/*int clr = color.getRGB(x, y);
-        int red =   (clr & 0x00ff0000) >> 16;
-        int green = (clr & 0x0000ff00) >> 8;
-        int blue =   clr & 0x000000ff;
-		if(red == 48 && green == 31 && blue == 23) {
-			check = true;
-		}*/
-		if (x >= 795 || y >= 795) {
-			return false;
-		}
-		if(c.getRed() == 48 && c.getGreen() == 31 && c.getBlue() == 23) {
-			check = true;
-		}
-		
-		/*else if(c.getRed() == 51 && c.getGreen() == 30 && c.getBlue() == 22) {
-			//return true;
-			check = true;
-			//return true;
-		}
-		*/
-
-		return check;	
-	}
-	
-	
-	public int returnClr(int x, int y) {
-		Color c = new Color(color.getRGB(x, y));
-		
-		return (c.getRed() + c.getGreen() + c.getBlue());	
-
-	}
 		
 	//update the picture variable location
 	private void update() {
 		tx.setToTranslation(x, y);
-		tx.scale(1,1);
+		tx.scale(3, 3);
 	}
-	
+		
 	private void init(double a, double b) {
 		tx.setToTranslation(a, b);
-		tx.scale(1,1);
+		tx.scale(3, 3);
 	}
 
 	private Image getImage(String path) {
 		Image tempImage = null;
 		try {
-			URL imageURL = Level.class.getResource(path);
-			color = ImageIO.read(imageURL);
+			URL imageURL = RestartMenu.class.getResource(path);
 			tempImage = Toolkit.getDefaultToolkit().getImage(imageURL);
 		} catch (Exception e) {
 			e.printStackTrace();

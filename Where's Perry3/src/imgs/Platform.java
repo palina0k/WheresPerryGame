@@ -1,97 +1,79 @@
 package imgs;
-import java.awt.image.BufferedImage;
+
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.Rectangle;
 import java.awt.Toolkit;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.net.URL;
 
 import javax.imageio.ImageIO;
 
-public class Level {
+public class Platform {
 	private int x,y; //location attributes
-	private Image img2; 	
+	private Image img; 	 	
 	private AffineTransform tx;
 	private BufferedImage color;
- 
-		
-	//default constructor
-	public Level() {
-		img2 = getImage("/imgs/test.png");  //load the image
-		tx = AffineTransform.getTranslateInstance(x,y);
-		//initialize the location of the image, use your variables
-		x = 0;
-		y = 0;
-	}
 		
 	//constructor that allows specifying the file name of the image
 	//sets fileName of the image to use
-	public Level(String fileName) {
-		img2 = getImage("/imgs/" + fileName);
+	public Platform(String name, int initx, int inity) {
+		img = getImage("/imgs/" + name);//load the image
 		tx = AffineTransform.getTranslateInstance(x,y);
-		init(x,y);
+		x = initx;
+		y = inity;
 	}
 		
 		
 	public void changePicture(String newFileName) {
-		img2 = getImage(newFileName);
+		img = getImage("/imgs/" + newFileName);
 		init(x,y);
 	}
 		
+	
+	public void move(int Xnum, int Ynum){
+		y += Ynum;
+		x += Xnum;
+	}
+	
+	
+	public int getX() {
+		return x;
+	}
+	public int getY() {
+		return y;
+	}
+	
 	public void paint(Graphics g) {
 		//these are the 2 lines of code needed draw an image on the screen
 		Graphics2D g2 = (Graphics2D) g;
 		update();
-		g2.drawImage(img2, tx, null);
+		g2.drawImage(img, tx, null);
 
 	}
 	
-	public boolean getclr(int x, int y) {
+	public boolean getPclr(int x, int y) {
 		boolean check = false;
 		Color c = new Color(color.getRGB(x, y));
+		
 	
-		/*int clr = color.getRGB(x, y);
-        int red =   (clr & 0x00ff0000) >> 16;
-        int green = (clr & 0x0000ff00) >> 8;
-        int blue =   clr & 0x000000ff;
-		if(red == 48 && green == 31 && blue == 23) {
+	
+		if(c.getRed() == 3 && c.getGreen() == 169 && c.getBlue() == 244) {
+			//return true;
 			check = true;
-		}*/
-		if (x >= 795 || y >= 795) {
-			return false;
-		}
-		if(c.getRed() == 48 && c.getGreen() == 31 && c.getBlue() == 23) {
-			check = true;
+			//return true;
 		}
 		
-		/*else if(c.getRed() == 51 && c.getGreen() == 30 && c.getBlue() == 22) {
-			//return true;
-			check = true;
-			//return true;
-		}
-		*/
-
+		//System.out.println(check);
 		return check;	
-	}
-	
-	
-	public int returnClr(int x, int y) {
-		Color c = new Color(color.getRGB(x, y));
-		
-		return (c.getRed() + c.getGreen() + c.getBlue());	
-
 	}
 		
 	//update the picture variable location
 	private void update() {
 		tx.setToTranslation(x, y);
-		tx.scale(1,1);
+		tx.scale(0.25,0.25);
 	}
 	
 	private void init(double a, double b) {
@@ -110,4 +92,5 @@ public class Level {
 		}
 		return tempImage;
 	}
+
 }
